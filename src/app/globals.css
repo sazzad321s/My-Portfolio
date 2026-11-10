@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Two intentionally designed themes. Components only use these tokens. */
+:root {
+  --canvas: #fbfaff;
+  --surface: #ffffff;
+  --surface-2: #f3f1fa;
+  --line: #e4e0f0;
+  --ink: #171a2d;
+  --muted: #555d78;
+  --g1: #d9480f;
+  --g2: #c2255c;
+  --g3: #6741d9;
+  --accent: #c2255c;
+  --on-brand: #ffffff;
+  --shadow: 23 26 45;
+}
+
+.dark {
+  --canvas: #0a1022;
+  --surface: #111a33;
+  --surface-2: #18223f;
+  --line: #26335a;
+  --ink: #edf1fc;
+  --muted: #a3aecb;
+  --g1: #ff8a3d;
+  --g2: #ff5c93;
+  --g3: #a78bfa;
+  --accent: #ff6fa0;
+  --on-brand: #0a1022;
+  --shadow: 0 0 0;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-on-brand: var(--on-brand);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility bg-brand {
+  background-image: linear-gradient(110deg, var(--g1), var(--g2) 55%, var(--g3));
+}
+
+@utility text-brand {
+  background-image: linear-gradient(110deg, var(--g1), var(--g2) 55%, var(--g3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--g2) 35%, transparent);
+}
+
+.hero-glow {
+  background:
+    radial-gradient(55% 55% at 78% 18%, color-mix(in oklab, var(--g2) 20%, transparent), transparent),
+    radial-gradient(45% 50% at 12% 85%, color-mix(in oklab, var(--g3) 16%, transparent), transparent),
+    radial-gradient(35% 40% at 55% 5%, color-mix(in oklab, var(--g1) 14%, transparent), transparent);
+}
+
+/* The one orchestrated page-load moment: hero content rises in sequence. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-rise {
+  opacity: 0;
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-rise { animation: none; opacity: 1; }
+}
